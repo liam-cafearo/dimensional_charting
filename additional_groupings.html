@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.4/dc.css">
     <script type='text/javascript'>
         /* The window.onload is on required if the javascript is placed in the head as we only want it to be invoked once the 
-                                                                    html has been parsed in the browser, otherwise it will think it our code will be targeting HTML that doesn't exist yet. */
+                                                                                                    html has been parsed in the browser, otherwise it will think it our code will be targeting HTML that doesn't exist yet. */
         window.onload = function () {
             function print_filter(filter) {
                 var f = eval(filter);
@@ -188,7 +188,8 @@
                 /* add an interactive legend. we set it to appear 450px out along the
                 x-axis and 10px from the top of the y-axis. We also set the item height and gap. */
                 .legend(dc.legend().x(450).y(10).itemHeight(13).gap(5))
-                .yAxisLabel("Hits per day");
+                .yAxisLabel("Hits per day")
+                .colors(["#9AB240","#9EC6FF","#E1FF74","#CC5749","#B21400"]);
 
             var yearDim = ndx.dimension(function (d) {
                 return +d.Year;
@@ -203,8 +204,36 @@
                 .slicesCap(4)
                 .innerRadius(50)
                 .dimension(yearDim)
-                .group(year_total);
+                .group(year_total)
+                .colors(["#9AB240","#9EC6FF","#E1FF74","#CC5749","#B21400"]);
 
+            // Add code to bind the data to our table.
+            var datatable = dc.dataTable("#dc-data-table");
+            datatable
+                .dimension(dateDim)
+                .group(function (d) {
+                    return d.Year;
+                })
+                // create the columns dynamically
+                .columns([
+                    function (d) {
+                        return d.date.getDate() + "/" + (d.date.getMonth() + 1) + "/" + d.date.getFullYear();
+                    },
+                    function (d) {
+                        return d.http_200;
+                    },
+                    function (d) {
+                        return d.http_302;
+                    },
+                    function (d) {
+                        return d.http_404;
+                    },
+                    function (d) {
+                        return d.total;
+                    }
+                ]);
+
+            // render all the charts on the page. 
             dc.renderAll();
         }
     </script>
@@ -213,6 +242,23 @@
 <body>
     <div id="chart-ring-year"></div>
     <div id="chart-line-hitsperday"></div>
+    <!-- To create a table with dc.js, we need to first create some structure 
+        for it – so it’s a little different from just a simple div like the charts. 
+        We include some styling on the encapsulating div so it doesn’t overlap our charts. 
+        Then we give our table both a header and an id so we can have dc reference it. -->
+    <div style='clear:both;'>
+        <table id="dc-data-table">
+            <thead>
+                <tr class="header">
+                    <th>HTTP Response Date</th>
+                    <th>HTTP Response 200</th>
+                    <th>HTTP Response 302</th>
+                    <th>HTTP Response 404</th>
+                    <th>HTTP Response Total</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </body>
 
 </html>
