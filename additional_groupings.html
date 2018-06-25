@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.4/dc.css">
     <script type='text/javascript'>
         /* The window.onload is on required if the javascript is placed in the head as we only want it to be invoked once the 
-                                                    html has been parsed in the browser, otherwise it will think it our code will be targeting HTML that doesn't exist yet. */
+                                                                    html has been parsed in the browser, otherwise it will think it our code will be targeting HTML that doesn't exist yet. */
         window.onload = function () {
             function print_filter(filter) {
                 var f = eval(filter);
@@ -32,49 +32,49 @@
             var hitspieChart = dc.pieChart("#chart-ring-year");
 
             var data = [{
-                    date: "12/27/2012",
+                    date: "09/30/2012",
                     http_404: 2,
-                    http_200: 190,
-                    http_302: 100
+                    http_200: 90,
+                    http_302: 0
                 },
                 {
-                    date: "12/28/2012",
-                    http_404: 2,
-                    http_200: 10,
-                    http_302: 100
-                },
-                {
-                    date: "12/29/2012",
+                    date: "06/90/2012",
                     http_404: 1,
                     http_200: 300,
                     http_302: 200
                 },
                 {
-                    date: "12/30/2012",
-                    http_404: 2,
-                    http_200: 90,
-                    http_302: 0
-                },
-                {
-                    date: "12/31/2012",
-                    http_404: 2,
-                    http_200: 90,
-                    http_302: 0
-                },
-                {
-                    date: "01/01/2013",
-                    http_404: 2,
-                    http_200: 90,
-                    http_302: 0
-                },
-                {
-                    date: "01/02/2013",
-                    http_404: 1,
+                    date: "06/28/2012",
+                    http_404: 20,
                     http_200: 10,
+                    http_302: 100
+                },
+                {
+                    date: "03/31/2012",
+                    http_404: 2,
+                    http_200: 90,
+                    http_302: 0
+                },
+                {
+                    date: "02/27/2012",
+                    http_404: 2,
+                    http_200: 190,
+                    http_302: 100
+                },
+                {
+                    date: "01/26/2013",
+                    http_404: 1,
+                    http_200: 200,
+                    http_302: 100
+                },
+                {
+                    date: "01/06/2013",
+                    http_404: 13,
+                    http_200: 19,
                     http_302: 1
                 },
                 {
-                    date: "01/03/2013",
+                    date: "01/05/2013",
                     http_404: 2,
                     http_200: 90,
                     http_302: 0
@@ -86,22 +86,46 @@
                     http_302: 0
                 },
                 {
-                    date: "01/05/2013",
-                    http_404: 2,
+                    date: "01/03/2013",
+                    http_404: 67,
                     http_200: 90,
                     http_302: 0
                 },
                 {
-                    date: "01/06/2013",
-                    http_404: 2,
-                    http_200: 200,
+                    date: "01/02/2013",
+                    http_404: 1,
+                    http_200: 10,
                     http_302: 1
                 },
                 {
-                    date: "01/07/2013",
-                    http_404: 1,
-                    http_200: 200,
-                    http_302: 100
+                    date: "01/01/2013",
+                    http_404: 80,
+                    http_200: 90,
+                    http_302: 0
+                },
+                {
+                    date: "09/05/2014",
+                    http_404: 2,
+                    http_200: 47,
+                    http_302: 23
+                },
+                {
+                    date: "05/04/2014",
+                    http_404: 19,
+                    http_200: 147,
+                    http_302: 0
+                },
+                {
+                    date: "07/06/2015",
+                    http_404: 2,
+                    http_200: 66,
+                    http_302: 88
+                },
+                {
+                    date: "01/07/2015",
+                    http_404: 100,
+                    http_200: 12,
+                    http_302: 88
                 }
             ];
 
@@ -157,8 +181,13 @@
                 .stack(status_302, "302")
                 .stack(status_404, "404")
                 .x(d3.time.scale().domain([minDate, maxDate]))
-                // change brushOn to false to turn off selector object for line chart
+                // add renderArea(true) to add color underneath each line
+                .renderArea(true)
+                // change brushOn to true/false to turn on/off selector object for line chart
                 .brushOn(false)
+                /* add an interactive legend. we set it to appear 450px out along the
+                x-axis and 10px from the top of the y-axis. We also set the item height and gap. */
+                .legend(dc.legend().x(450).y(10).itemHeight(13).gap(5))
                 .yAxisLabel("Hits per day");
 
             var yearDim = ndx.dimension(function (d) {
