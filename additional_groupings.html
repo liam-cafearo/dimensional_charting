@@ -189,7 +189,7 @@
                 x-axis and 10px from the top of the y-axis. We also set the item height and gap. */
                 .legend(dc.legend().x(450).y(10).itemHeight(13).gap(5))
                 .yAxisLabel("Hits per day")
-                .colors(["#9AB240","#9EC6FF","#E1FF74","#CC5749","#B21400"]);
+                .ordinalColors(["#9AB240","#9EC6FF","#E1FF74","#CC5749","#B21400"]);
 
             var yearDim = ndx.dimension(function (d) {
                 return +d.Year;
@@ -205,7 +205,7 @@
                 .innerRadius(50)
                 .dimension(yearDim)
                 .group(year_total)
-                .colors(["#9AB240","#9EC6FF","#E1FF74","#CC5749","#B21400"]);
+                .ordinalColors(["#9AB240","#9EC6FF","#E1FF74","#CC5749","#B21400"]);
 
             // Add code to bind the data to our table.
             var datatable = dc.dataTable("#dc-data-table");
